@@ -24,8 +24,13 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         item = TutorialItem()
         item['title'] = response.css('title::text').extract_first()
+        item['name'] = response.css('div.item-content a.item-title.h4::text').extract_first()
         item['url'] = response.url
-       # item['text'] = response.css('link.rel').extract_first()
+        item['price'] = response.css('div.item-content p.item-info strong::text').extract_first()
+        item['location'] = response.css('div.item-content p.item-location span.item-area::text').extract_first()
+        item['category'] = response.css('div.item-content p.item-location span.item-cat::text').extract_first()
+        item['date'] = response.css('div.item-date::text').extract_first()
+
         yield item
 
         print item
